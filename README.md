@@ -2,11 +2,7 @@
 
 # MinScIE: Citation-centered Open Information Extraction
 
-An Open Information Extraction system, providing useful extractions:
-* represents contextual information with semantic annotations
-* identifies and removes words that are considered overly specific
-* high precision/recall 
-* shorter, semantically enriched extractions
+An Open Information Extraction (OIE) system which provides structured knowledge enriched with semantic information about citations. This system is based upon the OIE system [MinIE](https://github.com/gkiril/minie). 
 
 ## Open Information Extraction (OIE)
 Open Information Extraction (OIE) systems aim to extract unseen relations and their arguments from unstructured text in unsupervised manner. In its simplest form, given a natural language sentence, they extract information in the form of a triple, consisted of subject (S), relation (R) and object (O). 
@@ -23,131 +19,18 @@ An OIE system aims to make the following extractions:
 ("AMD"; "is"; "technology company")
 ```
 
-## Version
-
-This is the latest version of MinIE, which may give you different (improved!) results than the original EMNLP-2017 version. The EMNLP-2017 version can be found [here](https://github.com/rgemulla/minie).
-
 ## Demo
 
-In general, the code for running MinIE in all of its modes is almost the same. The only exception is MinIE-D, which requires additional input (list of multi-word dictionaries). You can still use MinIE-D without providing multi-word dictionaries, but then MinIE-D assumes that you provided an empty dictionary, thus minimizing all the words which are candidates for dropping. 
-
-The following code demo is for MinIE-S (note that you can use the same for the rest of the modes, you just need to change `MinIE.Mode` accordingly):
-
-```java
-import de.uni_mannheim.minie.MinIE;
-import de.uni_mannheim.minie.annotation.AnnotatedProposition;
-import de.uni_mannheim.utils.coreNLP.CoreNLPUtils;
-
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-
-public class Demo {
-    public static void main(String args[]) {
-        // Dependency parsing pipeline initialization
-        StanfordCoreNLP parser = CoreNLPUtils.StanfordDepNNParser();
-        
-        // Input sentence
-        String sentence = "The Joker believes that the hero Batman was not actually born in 
-                           foggy Gotham City.";
-        
-        // Generate the extractions (With SAFE mode)
-        MinIE minie = new MinIE(sentence, parser, MinIE.Mode.SAFE);
-        
-        // Print the extractions
-        System.out.println("\nInput sentence: " + sentence);
-        System.out.println("=============================");
-        System.out.println("Extractions:");
-        for (AnnotatedProposition ap: minie.getPropositions()) {
-            System.out.println("\tTriple: " + ap.getTripleAsString());
-            System.out.print("\tFactuality: " + ap.getFactualityAsString());
-            if (ap.getAttribution().getAttributionPhrase() != null) 
-                System.out.print("\tAttribution: " + ap.getAttribution().toStringCompact());
-            else
-                System.out.print("\tAttribution: NONE");
-            System.out.println("\n\t----------");
-        }
-        
-        System.out.println("\n\nDONE!");
-    }
-}
-```
-
-If you want to use MinIE-D, then the only difference would be the way MinIE is called:
-
-```java
-import de.uni_mannheim.utils.Dictionary;
-. . .
-
-// Initialize dictionaries
-String [] filenames = new String [] {"/minie-resources/wiki-freq-args-mw.txt", 
-                                     "/minie-resources/wiki-freq-rels-mw.txt"};
-Dictionary collocationsDict = new Dictionary(filenames);
-
-// Use MinIE
-MinIE minie = new MinIE(sentence, parser, MinIE.Mode.DICTIONARY, collocationsDict);
-
-```
-
-In `resources/minie-resources/` you can find multi-word dictionaries constructed from WordNet (wn-mwe.txt) and from wiktionary (wiktionary-mw-titles.txt). This will give you some sort of functionality for MinIE-D. The multi-word dictionaries constructed with MinIE-S (as explained in the paper) are not here because of their size. If you want to use them, please refer to the download link in the section "Resources".
-
-## MinIE Service
-
-Code for exposing [MinIE - Open Information Extraction system](https://github.com/gkiril/minie) as a service.
-
-Start with:
-
-```bash
-$ mvn clean compile exec:java
-[..]
-
-[INFO] --- exec-maven-plugin:1.6.0:java (default-cli) @ minie-service ---
-MinIE Service
-Mar 06, 2018 8:43:13 PM org.glassfish.grizzly.http.server.NetworkListener start
-INFO: Started listener bound to [localhost:8080]
-Mar 06, 2018 8:43:13 PM org.glassfish.grizzly.http.server.HttpServer start
-INFO: [HttpServer] Started.
-Application started.
-Stop the application using CTRL+C
-```
-
-Use the service with:
-
-```bash
-$ curl 'http://localhost:8080/minie/query' -X POST -d 'Obama visited the white house.' | jq .
-{
-  "facts": [
-    {
-      "subject": "Obama",
-      "predicate": "visited",
-      "object": "white house"
-    }
-  ]
-}
-```
-
-## Python wrapper for MinIE (miniepy)
-
-You can find a python wrapper for MinIE [here](https://github.com/mmxgn/miniepy). If you want to use MinIE with python, please follow the guidelines provided on the repo's README. 
-
-
-## Resources
-
-* **Documentation:** for more thorough documentation for the code, please visit [MinIE's project page](https://gkiril.github.io/minie/).
-* **Paper:** _"MinIE: Minimizing Facts in Open Information Extraction"_ - appeared on EMNLP 2017 [[pdf]](http://aclweb.org/anthology/D/D17/D17-1278.pdf)
-* **Dictionary:** Wikipedia: frequent relations and arguments [[zip]](http://dws.informatik.uni-mannheim.de/fileadmin/lehrstuehle/pi1/pi1/minie/wiki-freq-args-rels.zip)
-* **Experiments datasets:** datasets from the paper
-  * [NYT](http://dws.informatik.uni-mannheim.de/fileadmin/lehrstuehle/pi1/pi1/minie/NYT.zip)
-  * [Wiki](http://dws.informatik.uni-mannheim.de/fileadmin/lehrstuehle/pi1/pi1/minie/Wiki.zip)
-  * [NYT-10k](http://dws.informatik.uni-mannheim.de/fileadmin/lehrstuehle/pi1/pi1/minie/nyt10k.zip)
+To see a demo, please refer to the class `tests.minie.DetectCitationDemo`.
 
 ## Citing
-If you use MinIE in your work, please cite our paper:
+If you use MinScIE in your work, please cite our paper:
 
 ```
-@inproceedings{gashteovski2017minie,
-  title={MinIE: Minimizing Facts in Open Information Extraction},
-  author={Gashteovski, Kiril and Gemulla, Rainer and Del Corro, Luciano},
-  booktitle={Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing},
-  pages={2620--2630},
-  year={2017}
+@inproceedings{lauscher2019minscie,
+  title={MinScIE: Citation-centered Open Information Extraction},
+  author={Lauscher, Anne and Song, Yide and Gashteovski, Kiril},
+  booktitle={Proceedings of ACM/IEEE Joint Conference on Digital Libraries},
+  year={2019}
 }
 ```
