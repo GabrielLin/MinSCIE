@@ -21,7 +21,7 @@ An OIE system aims to make the following extractions:
 
 ## Demo
 
-To see a demo, please refer to the class `tests.minie.DetectCitationDemo`.
+For the demos, please refer to the classes `tests.minie.Demo.java` and `tests.minie.DetectCitationDemo.java`.
 
 ## Citing
 If you use MinScIE in your work, please cite our paper:
