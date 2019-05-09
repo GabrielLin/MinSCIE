@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.uni_mannheim</groupId>
-  <artifactId>minie</artifactId>
+  <artifactId>minscie</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
