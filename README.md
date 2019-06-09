@@ -1,4 +1,4 @@
-<img src="https://gkiril.github.io/minie/images/minie_logo.png" align="right" width="150" />
+<img src="https://raw.githubusercontent.com/gkiril/minie/gh-pages/images/minie_logo.png" align="right" width="150" />
 
 # MinScIE: Citation-centered Open Information Extraction
 
@@ -24,7 +24,7 @@ An OIE system aims to make the following extractions:
 For the demos, please refer to the classes `tests.minie.Demo.java` and `tests.minie.DetectCitationDemo.java`.
 
 ## Citing
-If you use MinScIE in your work, please cite our [paper](https://ub-madoc.bib.uni-mannheim.de/49216/1/_JCDL19Demo__MinScIE%20%284%29.pdf):
+If you use MinScIE in your work, please cite our [paper](https://madoc.bib.uni-mannheim.de/49216/1/_JCDL19Demo__MinScIE%20%284%29.pdf):
 
 ```
 @inproceedings{lauscher2019minscie,
